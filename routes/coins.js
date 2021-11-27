@@ -47,8 +47,8 @@ async function getDataByDate(coins, date) {
 
 function calculateDiffs(historyData, currentData) {
     return Object.keys(currentData).reduce((agg, key) => {
-        let historyVal = historyData[key]
-        let currentVal = currentData[key]
+        let historyVal = 1/historyData[key]
+        let currentVal = 1/currentData[key]
         let sign = 1
         if (historyVal > currentVal) {
             sign = -1
