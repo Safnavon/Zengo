@@ -9,19 +9,19 @@ const API_COMPARE_PATH = "data/pricehistorical"
 //{coins:[],date:MM/DD/YYYY}
 router.post('/compare', async function (req, res, next) {
     if(!req.body){
-        res.status(400).send("request has no body, please send {coins:[],date:MM/DD/YYYY}")
+        return res.status(400).send("request has no body, please send {coins:[],date:MM/DD/YYYY}")
 
     }
     let {coins, date} = req.body;
     if (!coins || !coins.length || !date) {
-        res.status(400).send("missing coins/date params, please send {coins:[],date:MM/DD/YYYY}")
+        return res.status(400).send("missing coins/date params, please send {coins:[],date:MM/DD/YYYY}")
     }
 
     let historyDateMillis = Math.floor(new Date(date).getTime() / 1000)
     let dateMillis = Math.floor(new Date().getTime() / 1000)
 
-    if (historyDateMillis >= dateMillis) {
-        res.status(400).send("date must be in the past")
+    if (historyDateMillis >= dateMillis || !historyDateMillis) {
+        return res.status(400).send("date must be in the past and in the format MM/DD/YYYY")
     }
     let currentPromise = getDataByDate(coins, dateMillis)
     let historyPromise = getDataByDate(coins, historyDateMillis)
@@ -38,7 +38,7 @@ router.post('/compare', async function (req, res, next) {
         return a.diff > b.diff ? -1 : (a.diff < b.diff ? 1 : 0)
     })
 
-    console.log(JSON.stringify(sorted))
+    // console.log(JSON.stringify(sorted))
 
     await res.json(sorted)
 
