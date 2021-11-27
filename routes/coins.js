@@ -18,6 +18,9 @@ router.post('/compare', async function (req, res, next) {
     let historyDateMillis = Math.floor(new Date(date).getTime() / 1000)
     let dateMillis = Math.floor(new Date().getTime() / 1000)
 
+    if (historyDateMillis >= dateMillis) {
+        res.status(400).send("date must be in the past")
+    }
     let currentPromise = getDataByDate(coins, dateMillis)
     let historyPromise = getDataByDate(coins, historyDateMillis)
 
@@ -47,8 +50,8 @@ async function getDataByDate(coins, date) {
 
 function calculateDiffs(historyData, currentData) {
     return Object.keys(currentData).reduce((agg, key) => {
-        let historyVal = 1/historyData[key]
-        let currentVal = 1/currentData[key]
+        let historyVal = 1 / historyData[key]
+        let currentVal = 1 / currentData[key]
         let sign = 1
         if (historyVal > currentVal) {
             sign = -1

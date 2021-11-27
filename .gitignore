@@ -1,1 +1,12 @@
-node_modules
+/node_modules
+.idea/.gitignore
+.idea/codeStyles/
+.idea/dbnavigator.xml
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations/
+.idea/untitled1.iml
+.idea/vcs.xml
+public/images/
+public/javascripts/
